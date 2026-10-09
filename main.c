@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 
 int main(){
 	unsigned long long s1= 0;
