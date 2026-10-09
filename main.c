@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 
 int main(){
 	unsigned long long s1= 0;
@@ -8,7 +8,7 @@ int main(){
 	
 	int n;
 	scanf("%d",&n);
-	if (n = 0){
+	if (n == 0){
 		res = 0;
 	}
 	else{
