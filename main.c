@@ -11,6 +11,10 @@ int main(){
 	if (n == 0){
 		res = 0;
 	}
+	else if (n == 1){
+		res = 1;
+	}
+	
 	else{
 	
 		for (int i = 2; i <= n; i++){
