@@ -8,9 +8,9 @@ int main() {
     max = b;
   }
   if (c > b) {
-    max = c
+    max = c;
   }
 
-  printf("%d",max)
+  printf("%d",max);
   return 0;
 }
