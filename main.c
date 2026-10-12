@@ -10,6 +10,7 @@ int main() {
   if (c > b) {
     max = c
   }
+
   printf("%d",max)
   return 0;
 }
