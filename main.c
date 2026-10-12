@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 int main() {
-	unsigned long long a;
-	scanf("%u",&a);
+	long long a;
+	scanf("%lld",&a);
 	if (a == 0 || a % 2 == 0){
 	printf("CHAN");
 	}
