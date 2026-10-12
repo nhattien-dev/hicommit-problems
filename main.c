@@ -1,11 +1,25 @@
-// HICOMMIT TEMPLATE FOR C
 #include <stdio.h>
+#include <string.h>
+int main(){
+    int temp;
+    char resul[10];
 
-int main() {
+    scanf("%d",&temp);
+
+    if (temp < 15){
+        strcpy(resul,"LANH");
+    }
+    else if (15 < temp && temp < 25){
+        strcpy(resul,"MAT");
+    }
     
-    /*
-        Your code goes here. Happy coding!
-    */
-
+    else if (temp >= 25 && temp < 35){
+        strcpy(resul,"NONG");
+    }
+    else{
+        strcpy(resul,"RAT_NONG");
+    }
+    fputs(resul,stdout);
     return 0;
 }
+
