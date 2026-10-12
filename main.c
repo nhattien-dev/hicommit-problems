@@ -1,11 +1,14 @@
-// HICOMMIT TEMPLATE FOR C
 #include <stdio.h>
 
 int main() {
-    
-    /*
-        Your code goes here. Happy coding!
-    */
+  unsigned long long a;
 
-    return 0;
+  if (a == 0 || a % 2 == 0){
+    printf("CHAN");
+  }
+  else{
+    printf("lE");
+  }
+
+  return 0;
 }
