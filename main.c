@@ -2,7 +2,7 @@
 
 int main() {
 	unsigned long long a;
-	scanf("%ld",&a);
+	scanf("%u",&a);
 	if (a == 0 || a % 2 == 0){
 	printf("CHAN");
 	}
