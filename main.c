@@ -6,7 +6,7 @@ int main(){
 
     scanf("%d",&temp);
 
-    if (temp < 15){
+    if (temp <= 15){
         strcpy(resul,"LANH");
     }
     else if (15 < temp && temp < 25){
