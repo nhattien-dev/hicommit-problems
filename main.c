@@ -7,7 +7,7 @@ int main() {
 	printf("CHAN\n");
 	}
 	else{
-	printf("lE\n");
+	printf("LE\n");
 	}
 	
 	return 0;
