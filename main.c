@@ -4,10 +4,10 @@ int main() {
 	long long a;
 	scanf("%lld",&a);
 	if (a == 0 || a % 2 == 0){
-	printf("CHAN");
+	printf("CHAN\n");
 	}
 	else{
-	printf("lE");
+	printf("lE\n");
 	}
 	
 	return 0;
