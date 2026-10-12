@@ -20,7 +20,6 @@ void res(){
         printf("%d",40000);
     }
 }
-
 int main(){
     res();
 }  
