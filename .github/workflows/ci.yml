@@ -15,16 +15,20 @@ jobs:
         id: start_time
         run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
 
+      # Step 1: Checkout code về trước
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Step 2: Gửi trạng thái Pending
       - name: Send Pending Status to API
         run: |
           branch_name=$(echo ${{ github.ref }} | sed 's|refs/heads/||')
           api_url="https://proxy.kakanie.com/problems/$branch_name/submission/result"
           
-          # Mã hóa file Main.java thành base64
-          encoded_code=$(base64 -w 0 main.cpp)
+          # Tìm file code tự động
+          source_file=$(find . -maxdepth 1 -type f \( -name "*.cpp" -o -name "*.java" -o -name "*.py" -o -name "*.c" \) | head -n 1)
+          encoded_code=""
+          [ -n "$source_file" ] && encoded_code=$(base64 -w 0 "$source_file")
           
           json_payload=$(jq -n \
               --arg branch "$branch_name" \
@@ -43,42 +47,57 @@ jobs:
                 status: $status,
                 code: $code
               }')
-          echo "JSON Payload: $json_payload"
           
           curl -X POST "$api_url" \
             -H "Content-Type: application/json" \
             -d "$json_payload"
 
-      - name: Set up C++ Compiler and Libraries
+      # Step 3: Cài đặt Môi trường (C++, Java, Python, JQ)
+      - name: Set up Environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y g++-10 cmake git curl
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 90
-          echo "#include <bits/stdc++.h>" > stdc++.h
-          echo "using namespace std;" >> stdc++.h
-          # Download and install jq-1.5-1
-          curl -LO https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
-          chmod +x jq-linux64
-          sudo mv jq-linux64 /usr/local/bin/jq
+          sudo apt-get install -y g++-10 gcc openjdk-17-jdk python3 cmake git curl jq
 
+      # Step 4: Tự động Biên dịch theo Ngôn ngữ
       - name: Compile Code
         id: compile
         run: |
-          g++ -o my_program main.cpp -std=c++17
+          source_file=$(find . -maxdepth 1 -type f \( -name "*.cpp" -o -name "*.java" -o -name "*.py" -o -name "*.c" \) | head -n 1)
+          echo "Found source file: $source_file"
+          
+          if [ -z "$source_file" ]; then
+            echo "Error: No source file found!"
+            exit 1
+          fi
 
+          ext="${source_file##*.}"
+          echo "RUN_MODE=$ext" >> $GITHUB_ENV
+          echo "SOURCE_FILE=$source_file" >> $GITHUB_ENV
+
+          if [ "$ext" == "cpp" ]; then
+            g++ -o my_program "$source_file" -std=c++17
+          elif [ "$ext" == "c" ]; then
+            gcc -o my_program "$source_file" -std=c11
+          elif [ "$ext" == "java" ]; then
+            javac "$source_file"
+          elif [ "$ext" == "py" ]; then
+            echo "Python script detected. Skipping build step."
+          fi
+
+      # Step 5: Xử lý khi lỗi Compile
       - name: Handle Compile Failure
         if: failure()
         run: |
           end_time=$(date +%s)
           start_time=${{ env.START_TIME }}
           duration=$((end_time - start_time))
-          echo "DURATION=$duration" >> $GITHUB_ENV
 
           branch_name=$(echo ${{ github.ref }} | sed 's|refs/heads/||')
           api_url="https://proxy.kakanie.com/problems/$branch_name/submission/result"
           
-          # Mã hóa file main.cpp thành base64
-          encoded_code=$(base64 -w 0 main.cpp)
+          source_file=$(find . -maxdepth 1 -type f \( -name "*.cpp" -o -name "*.java" -o -name "*.py" -o -name "*.c" \) | head -n 1)
+          encoded_code=""
+          [ -n "$source_file" ] && encoded_code=$(base64 -w 0 "$source_file")
 
           json_payload=$(jq -n \
             --arg branch "$branch_name" \
@@ -100,12 +119,11 @@ jobs:
               code: $code
             }')
 
-          echo "JSON Payload: $json_payload"
-
           curl -X POST "$api_url" \
             -H "Content-Type: application/json" \
             -d "$json_payload"
 
+      # Step 6: Tải Test Cases
       - name: Fetch Test Cases from API
         if: success()
         run: |
@@ -113,6 +131,7 @@ jobs:
           api_url="https://proxy.kakanie.com/problems/$branch_name/testcases"
           curl -s $api_url -o test_cases.json
 
+      # Step 7: Tự động Chạy Tests dựa theo loại ngôn ngữ
       - name: Run Tests
         if: success()
         id: run_tests
@@ -128,56 +147,46 @@ jobs:
             input=$(echo "$test_case" | jq -r '.input')
             expected_output=$(echo "$test_case" | jq -r '.output')
 
-            echo "Running test with ID: $id"
-            echo "Input: $input"
-            echo "Expected Output: $expected_output"
+            # Lệnh chạy linh hoạt tùy theo đuôi file
+            if [ "$RUN_MODE" == "cpp" ] || [ "$RUN_MODE" == "c" ]; then
+              run_cmd="./my_program"
+            elif [ "$RUN_MODE" == "java" ]; then
+              class_name=$(basename "$SOURCE_FILE" .java)
+              run_cmd="java $class_name"
+            elif [ "$RUN_MODE" == "py" ]; then
+              run_cmd="python3 $SOURCE_FILE"
+            fi
 
-            # Run the program and handle any errors
-            if ! echo "$input" | ./my_program > output.txt; then
-              echo "Test $id encountered an error!"
+            if ! echo "$input" | $run_cmd > output.txt; then
               result_status="error"
-              actual_output="N/A"  # Do not record actual output if there's an error
+              actual_output="N/A"
               overall_status="error"
             else
-              # Ensure there's a newline at the end of both output files
               sed -i -e '$a\' output.txt
               actual_output=$(cat output.txt)
 
-              echo "Actual Output: $actual_output"
-
               if [ "$actual_output" == "$expected_output" ]; then
-                echo "Test $id passed!"
                 result_status="passed"
                 pass_count=$((pass_count + 1))
               else
-                echo "Test $id failed!"
                 result_status="failed"
                 overall_status="failed"
               fi
             fi
 
-            echo "---------------------------"
-
-            # Append the new result to the JSON array
             results=$(echo "$results" | jq --arg id "$id" --arg status "$result_status" --arg actual_output "$actual_output" \
               '. += [{"id": $id, "status": $status, "actual_output": $actual_output}]')
 
             total_count=$((total_count + 1))
           done < test_cases_list.txt
 
-          # Log results for debugging
-          echo "Results JSON: $results"
-          echo "Overall Status: $overall_status"
-          echo "Total: $total_count"
-          echo "Pass Count: $pass_count"
-          
-          # Encode JSON for safe export to GitHub Actions environment
           encoded_results=$(echo "$results" | jq -c .)
           echo "RESULTS_JSON=$encoded_results" >> $GITHUB_ENV
           echo "OVERALL_STATUS=$overall_status" >> $GITHUB_ENV
           echo "PASS_COUNT=$pass_count" >> $GITHUB_ENV
           echo "TOTAL_COUNT=$total_count" >> $GITHUB_ENV
 
+      # Step 8: Đo thời gian thực thi
       - name: Record end time and calculate duration
         id: end_time
         if: success()
@@ -187,14 +196,16 @@ jobs:
           duration=$((end_time - start_time))
           echo "DURATION=$duration" >> $GITHUB_ENV
 
+      # Step 9: Trả kết quả cuối cùng về API
       - name: Post Test Results
         if: success()
         run: |
           branch_name=$(echo ${{ github.ref }} | sed 's|refs/heads/||')
           api_url="https://proxy.kakanie.com/problems/$branch_name/submission/result"
           
-          # Mã hóa file main.cpp thành base64
-          encoded_code=$(base64 -w 0 main.cpp)
+          source_file=$(find . -maxdepth 1 -type f \( -name "*.cpp" -o -name "*.java" -o -name "*.py" -o -name "*.c" \) | head -n 1)
+          encoded_code=""
+          [ -n "$source_file" ] && encoded_code=$(base64 -w 0 "$source_file")
       
           json_payload=$(jq -n \
               --arg branch "$branch_name" \
@@ -221,8 +232,6 @@ jobs:
                 duration: ($duration | tonumber),
                 code: $code
               }')
-      
-          echo "JSON Payload: $json_payload"
           
           curl -X POST "$api_url" \
             -H "Content-Type: application/json" \
