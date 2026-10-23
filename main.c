@@ -20,17 +20,18 @@ int main(){
     printf("C+");  
   }
   
-  else if (diem > 5.5 && diem <= 6.4){
+  else if (diem >= 5.5 && diem <= 6.4){
     printf("C");  
   }
   
-  else if (diem > 5 && diem <= 5.4){
+  else if (diem >= 5 && diem <= 5.4){
     printf("D+");  
   }
   
-  else if (diem > 4 && diem <= 4.9){
+  else if (diem >= 4 && diem <= 4.9){
     printf("D");  
   }
+  
   else{
     printf("F");
   }
