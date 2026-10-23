@@ -10,7 +10,7 @@ int main() {
   
   else if (diem >= 9.0 && drl >= 80 && drl < 90){
     printf("HOC_BONG_GIOI");
-  }.
+  }
 
   else if (diem >= 8.0 && drl >= 80 && drl < 90){
     printf("HOC_BONG_GIOI");
