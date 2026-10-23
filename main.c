@@ -1,18 +1,18 @@
 #include <stdio.h>
 
-int main() {
+int main(){
   float diem;
   scanf("%f",&diem);
 
-  if (diem >= 9 && diem <= 10){
+  if (diem >= 9.0 && diem <= 10.0){
     printf("A");
   }
   
-  else if (diem >= 8 && diem <= 8.9){
+  else if (diem >= 8.0 && diem <= 8.9){
     printf("B+");  
   }
   
-  else if (diem >= 7 && diem <= 7.9){
+  else if (diem >= 7.0 && diem <= 7.9){
     printf("B");  
   }
   
