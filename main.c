@@ -48,6 +48,11 @@ int main(){
 		k -= 100;
 	}
 	else{
+		s+= (long long)k * 2927;
+		k -= k;
+	}
+	
+	if (k > 0){
 		s += 2927LL * k;
 		k -= k;
 	}
