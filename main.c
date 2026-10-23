@@ -52,6 +52,10 @@ int main(){
 		k -= k;
 	}
 	
+	if (k > 0){
+		s += k*2927;
+		k - =k;
+	}
 	
 	printf("%lld",s);
 	return 0;
