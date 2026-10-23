@@ -1,11 +1,17 @@
-// HICOMMIT TEMPLATE FOR C
 #include <stdio.h>
 
 int main() {
-    
-    /*
-        Your code goes here. Happy coding!
-    */
+  float diem;
+  scanf("%f",&diem);
 
-    return 0;
+  if (diem >= && diem <= 10){
+    printf("A");
+  }
+  else if (diem >= 8 && diem <= 8.9){
+    printf("B+");  
+  }
+  else if (diem >= 7 && diem <= 7.9){
+    printf("B");  
+  }
+  return 0;
 }
