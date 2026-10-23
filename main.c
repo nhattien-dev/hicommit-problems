@@ -31,6 +31,9 @@ int main() {
   else if (diem >= 4 && diem <= 4.9){
     printf("D");  
   }
+  else{
+    printf("F")
+  }
   
   return 0;
 }
