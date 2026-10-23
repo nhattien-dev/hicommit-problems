@@ -24,7 +24,7 @@ int main() {
   else if (diem >= 9.0 && drl >= 70 && diem < 80){
     printf("HOC_BONG_KHA");
   }
-  else{
+  else if (drl < 70) {
     printf("KHONG_DAT");
   }
   
