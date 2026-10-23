@@ -4,7 +4,7 @@ int main() {
   float diem;
   scanf("%f",&diem);
 
-  if (diem >= && diem <= 10){
+  if (diem >= 9 && diem <= 10){
     printf("A");
   }
   else if (diem >= 8 && diem <= 8.9){
