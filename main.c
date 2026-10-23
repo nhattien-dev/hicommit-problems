@@ -4,7 +4,7 @@ int main() {
   int num;
   scanf("%d",&num);
 
-  switch(num):
+  switch(num)
     case 1:
       printf("XEP_LOAI_XUAT_SAC");break;
     case 2:
