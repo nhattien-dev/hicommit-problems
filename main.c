@@ -43,6 +43,15 @@ int main(){
 		k -= k;
 	}
 	
+	if ((100 - k <= 0) && (k > 0)){
+		s += 100 * 2834;
+		k -= 100;
+	}
+	else{
+		s += k * 2834;
+		k -= k;
+	}
+	
 	
 	printf("%lld",s);
 	return 0;
