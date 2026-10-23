@@ -18,10 +18,10 @@ int main() {
   else if (diem >= 7.0 && drl >= 70 && drl < 80 || drl >= 80 && drl < 90 || drl >= 90){
     printf("HOC_BONG_KHA");
   }
-  else if (diem >= 8.0 && drl >= 70 && diem <= 80){
+  else if (diem >= 8.0 && drl >= 70 && diem < 80){
     printf("HOC_BONG_KHA");
   }
-  else if (diem >= 9.0 && drl >= 70 && diem <= 80){
+  else if (diem >= 9.0 && drl >= 70 && diem < 80){
     printf("HOC_BONG_KHA");
   }
   else{
