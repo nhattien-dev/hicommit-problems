@@ -7,11 +7,30 @@ int main() {
   if (diem >= 9 && diem <= 10){
     printf("A");
   }
+  
   else if (diem >= 8 && diem <= 8.9){
     printf("B+");  
   }
+  
   else if (diem >= 7 && diem <= 7.9){
     printf("B");  
   }
+  
+  else if (diem >= 6.5 && diem <= 6.9){
+    printf("C+");  
+  }
+  
+  else if (diem >= 5.5 && diem <= 6.4){
+    printf("C");  
+  }
+  
+  else if (diem >= 5 && diem <= 5.4){
+    printf("D+");  
+  }
+  
+  else if (diem >= 4 && diem <= 4.9){
+    printf("D");  
+  }
+  
   return 0;
 }
