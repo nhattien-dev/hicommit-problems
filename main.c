@@ -48,7 +48,7 @@ int main(){
 		k -= 100;
 	}
 	else{
-		s+= (long long)k * 2927;
+		s+= (long long)k * 2834;
 		k -= k;
 	}
 	
