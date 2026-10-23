@@ -25,7 +25,7 @@ int main() {
     printf("HOC_BONG_KHA");
   }
   else{
-    prinft("KHONG DAT");
+    printf("KHONG_DAT");
   }
   
   return 0;
