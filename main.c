@@ -53,7 +53,7 @@ int main(){
 	}
 	
 	if (k > 0){
-		s += 2927LL * k;
+		s += (long long)2927 * k;
 		k -= k;
 	}
 	
