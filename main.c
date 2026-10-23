@@ -2,7 +2,7 @@
 
 int main() {
   float diem,drl;
-
+  scanf("%f%f",diem,drl);
   if (diem >= 9.0 && drl >= 90){
     printf("HOC_BONG_XUAT_SAC");
   }
