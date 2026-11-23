@@ -5,6 +5,11 @@ int main(){
   int check = 0;
   scanf("%d%d%d",&day,&month,&year);
 
+  if (year < 0)
+  {
+    printf("INVALID");
+    return 0;
+  }
 
   if ((day <= 31 && day >= 1) && (month == 1 || month == 3 || month == 5 || month == 7 ||month == 8 || month == 10 || month == 12))
   {
@@ -19,7 +24,7 @@ int main(){
     printf("VALID");
     check = 1;
   }
-  else if (((check == 0) && (day <= 28 && day >= 1)) &&  month == 2)
+  else if (((check == 0) && (day <= 28 && day >= 1)) &&  (month == 2))
   {
     printf("VALID");
   }
