@@ -14,7 +14,7 @@ int main(){
     printf("VALID");
   }
   
-  else if (((year % 400 == 0) || (year % 4 && year % 100 != 0)) && ((day <=  29 && day >= 1) && (month == 2)))
+  else if (((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0)) && ((day <=  29 && day >= 1) && (month == 2)))
   {
     printf("VALID");
     check = 1;
