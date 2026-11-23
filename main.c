@@ -1,20 +1,31 @@
 #include <stdio.h>
 
 int main(){
-  int year,month,day,check;
+  int year,month,day;
+  int check = 0;
   scanf("%d%d%d",&day,&month,&year);
 
 
   if ((day <= 31 && day >= 1) && (month == 1 || month == 3 || month == 5 || month == 7 ||month == 8 || month == 10 || month == 12))
   {
       printf("VALID");
-      return 0;
+  }
+  else if ((day <= 30 && day >= 1) && (month == 4 || month == 6 || month == 11)){
+    printf("VALID");
   }
   
-  if (((year % 400 == 0) || (year % 4 && year % 100 != 0)) && ((day <=  29 && day >= 1) && (month == 2)))
+  else if (((year % 400 == 0) || (year % 4 && year % 100 != 0)) && ((day <=  29 && day >= 1) && (month == 2)))
   {
     printf("VALID");
-    return 0;
+    check = 1;
+  }
+  else if (((check == 0) && (day <= 28 && day >= 1)) &&  month == 2)
+  {
+    printf("VALID");
+  }
+  else
+  {
+    printf("INVALID");
   }
 
   return 0;
