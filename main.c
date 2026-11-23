@@ -10,6 +10,6 @@ int main() {
   {
     money += qd * 15000;
   }
-  printf("%lf",money);
+  printf("%.0lf",money);
   return 0;
 }
