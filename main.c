@@ -16,7 +16,7 @@ int main() {
   }
   else
   {
-    money += 15000 + (qd - 1)*13000 + (qd - 5)* 11000;
+    money += 15000 + 4*13000 + (qd - 5)* 11000;
   }
     
   printf("%.0lf",money);
