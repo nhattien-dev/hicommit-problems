@@ -10,7 +10,7 @@ int main(){
   {
       printf("VALID");
   }
-  else if ((day <= 30 && day >= 1) && (month == 4 || month == 6 || month == 11)){
+  else if ((day <= 30 && day >= 1) && (month == 4 || month == 6 || month == 11 || month == 9)){
     printf("VALID");
   }
   
