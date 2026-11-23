@@ -5,7 +5,7 @@ int main(){
   int check = 0;
   scanf("%d%d%d",&day,&month,&year);
 
-  if (year < 0)
+  if (year <= 0)
   {
     printf("INVALID");
     return 0;
