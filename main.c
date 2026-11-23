@@ -5,7 +5,7 @@ int main() {
 
   scanf("%f%f%f",&gpa,&min,&nghi);
 
-  if (abs > 3)
+  if (nghi > 3)
   {
     printf("FAIL_ATTENDANCE");
     return 0;
